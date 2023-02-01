@@ -4,7 +4,9 @@
 /[Bb]uild/
 /[Bb]uilds/
 /[Ll]ogs/
+/[Uu]ser[Ss]ettings/
 /[Mm]emoryCaptures/
+/[Rr]ecordings/
 /Assets/TextMesh\ Pro
 
 # Folders of packages I'm not allowed to distribute
