@@ -2,14 +2,15 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private static Transform tr;
     private static Rigidbody rb;
     private static float forwardSpeed, sideStepSpeed, rotationSpeed;
     private static float jumpForce;
-    private static bool canJump;
 
     void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        tr = transform.parent;
+        rb = tr.GetComponent<Rigidbody>();
     }
 
     void Start()
@@ -17,9 +18,7 @@ public class PlayerMovement : MonoBehaviour
         forwardSpeed = 7f;
         sideStepSpeed = 5f;
         rotationSpeed = forwardSpeed * 10f;
-
         jumpForce = 5f;
-        canJump = false;
     }
 
     void FixedUpdate()
@@ -28,18 +27,13 @@ public class PlayerMovement : MonoBehaviour
         float sideStepMovement = PlayerInput.sideStepInput * sideStepSpeed;
         float rotationMovement = PlayerInput.movementVector.x * rotationSpeed;
 
-        transform.Translate(new Vector3(sideStepMovement, 0f, forwardMovement) * Time.deltaTime);
-        transform.Rotate(new Vector3(0f, rotationMovement, 0f) * Time.deltaTime);
+        tr.Translate(new Vector3(sideStepMovement, 0f, forwardMovement) * Time.deltaTime);
+        tr.Rotate(new Vector3(0f, rotationMovement, 0f) * Time.deltaTime);
 
-        if (PlayerInput.jumpInput && canJump)
+        if (PlayerInput.jumpInput && JumpCheck.playerCanJump)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            canJump = false;
+            JumpCheck.playerCanJump = false;
         } 
-    }
-
-    private void OnCollisionEnter()
-    {
-        canJump = true;
     }
 }
